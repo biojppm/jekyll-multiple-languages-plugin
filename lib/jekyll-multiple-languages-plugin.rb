@@ -98,22 +98,15 @@ module Jekyll
       self.config[        'lang'] = languages.first          # Current language being processed
       self.config['baseurl_root'] = baseurl_org              # Baseurl of website root (without the appended language code)
       self.config['translations'] = self.parsed_translations # Hash that stores parsed translations read from YAML files. Exposes this hash to Liquid.
+
       
-      
-      # Build the website for default language
-      #-------------------------------------------------------------------------
-      puts "Building site for default language: \"#{self.config['lang']}\" to: #{self.dest}"
-      
-      process_org
-      
-      
-      # Build the website for the other languages
+      # Build the website for the languages
       #-------------------------------------------------------------------------
       
       # Remove .htaccess file from included files, so it wont show up on translations folders.
       self.include -= [".htaccess"]
       
-      languages.drop(1).each do |lang|
+      languages.each do |lang|
         
         # Language specific config/variables
         @dest                  = dest_org    + "/" + lang
@@ -424,9 +417,9 @@ module Jekyll
       pages        =           site.pages
       url          = "";
       
-      if default_lang != lang
-        baseurl = baseurl + "/" + lang
-      end
+      #if default_lang != lang
+      baseurl = baseurl + "/" + lang
+      #end
       
       for p in pages
         unless             p['namespace'].nil?
