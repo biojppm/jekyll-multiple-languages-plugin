@@ -348,7 +348,6 @@ module Jekyll
     end
 
 
-
     #======================================
     # render
     #======================================
@@ -361,10 +360,15 @@ module Jekyll
 
       key = Liquid::Template.parse(key).render(context)  # Parses and renders some Liquid syntax on arguments (allows expansions)
 
-      site = context.registers[:site] # Jekyll site object
+      if "#{key}" == ""
+        ""
+      else
+        site = context.registers[:site] # Jekyll site object
+        translation = site.tr(key)
+        rtr = Liquid::Template.parse(translation).render(context)
+        rtr
+      end
 
-      translation = site.tr(key)
-      translation
     end
   end
 
