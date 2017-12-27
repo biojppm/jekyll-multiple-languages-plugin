@@ -372,6 +372,20 @@ module Jekyll
     end
   end
 
+  module TranslateFilter
+    def tr(input)
+      #puts "Translating \"#{input}\""
+      if "#{input}" == ""
+        ""
+      else
+        site = @context.registers[:site] # Jekyll site object
+        translation = site.tr(input)
+        rtr = Liquid::Template.parse(translation).render(@context)
+        rtr
+      end
+    end
+  end
+  Liquid::Template.register_filter(Jekyll::TranslateFilter)
 
   ##############################################################################
   # class LocalizeArgsTag
